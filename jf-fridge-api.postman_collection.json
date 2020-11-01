@@ -1,0 +1,151 @@
+{
+	"info": {
+		"_postman_id": "f135ed04-5530-40da-a516-b7199ee7c6cc",
+		"name": "jf-fridge-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Persist Ingredients",
+			"item": [
+				{
+					"name": "Get all Ingredients",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/ingredients",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"ingredients"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add  ingredient",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\": \"Porc\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/ingredients",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"ingredients"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete ingredient",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/ingredients/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"ingredients",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Find recipes",
+			"item": [
+				{
+					"name": "Matching Recipes",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ingredients\": [\"Porc\", \"Caramel\", \"Sel\", \"Poivre\"],\n    \"limit\": 10\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/matching_recipes",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"matching_recipes"
+							]
+						},
+						"description": "Returns the recipes which have the best match with `ingredients`, having the maximum of ingredients from their recipes found in the list"
+					},
+					"response": []
+				},
+				{
+					"name": "Full match recipes",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ingredients\": [\n        \"Pâtes\",\n        \"Chorizo\",\n        \"Poivron\",\n        \"Vin blanc\",\n        \"Parmesan\",\n        \"Oignons\",\n        \"Herbes de Provence\",\n        \"Origan\",\n        \"Piment d’espelette\",\n        \"Crème fraîche\",\n        \"Tomates fraiches\",\n        \"Coulis de tomate\",\n        \"Sel\",\n        \"Poivre\"\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/full_match_recipes",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"full_match_recipes"
+							]
+						},
+						"description": "Returns the recipes which have all their ingredients into `ingredients`"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"variable": [
+		{
+			"id": "a7c16d22-b48c-4193-b78d-b593b31cde4b",
+			"key": "host",
+			"value": "https://jf-fridge-api.herokuapp.com/"
+		}
+	],
+	"protocolProfileBehavior": {}
+}
