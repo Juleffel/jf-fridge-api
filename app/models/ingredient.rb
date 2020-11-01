@@ -21,20 +21,27 @@ class Ingredient < ApplicationRecord
     def self.find_best_matches ingredients, limit = 5
         normalized_ingredients = ingredients.map {|i| self.normalize(i)}
         noted_recipes = RECIPES.map do |recipe|
-            if !recipe then return nil end
-            found_ingredients_in_recipe = self.find_ingredients_in_recipe(normalized_ingredients, recipe)
-            found_recipe_ingredients = self.find_recipe_ingredients(normalized_ingredients, recipe)
-            rate = recipe["rate"].to_f
-            match_note = found_ingredients_in_recipe.count * rate
-            {
-                recipe: recipe,
-                found_ingredients_in_recipe: found_ingredients_in_recipe,
-                found_recipe_ingredients: found_recipe_ingredients,
-                rate: rate,
-                match_note: match_note
-            }
+            self.match_note_recipe(normalized_ingredients, recipe)
         end.sort_by {|e| e[:match_note]}
         return noted_recipes.last(limit).reverse
+    end
+
+    #######
+    # Give a matching note to a recipe depending its rate and how many of its ingredients are into `ingredients`
+    #######
+    def self.match_note_recipe normalized_ingredients, recipe
+        if !recipe then return nil end
+        found_ingredients_in_recipe = self.find_ingredients_in_recipe(normalized_ingredients, recipe)
+        found_recipe_ingredients = self.find_recipe_ingredients(normalized_ingredients, recipe)
+        rate = recipe["rate"].to_f
+        match_note = found_ingredients_in_recipe.count * rate
+        return {
+            recipe: recipe,
+            found_ingredients_in_recipe: found_ingredients_in_recipe,
+            found_recipe_ingredients: found_recipe_ingredients,
+            rate: rate,
+            match_note: match_note
+        }
     end
 
     #######
