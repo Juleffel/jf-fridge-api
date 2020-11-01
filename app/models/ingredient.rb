@@ -94,7 +94,6 @@ class Ingredient < ApplicationRecord
     #####
     ## HELPERS
     #####
-    # https://stackoverflow.com/a/15696883
     def self.normalize(str)
         str.downcase
     end

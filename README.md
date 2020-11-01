@@ -1,24 +1,11 @@
-# README
+# Fridge API
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+* Standard REST API for Ingredients persistence
 
-Things you may want to cover:
+* `/matching_recipes`: Returns the recipes which have the best match with `ingredients`, having the maximum of ingredients from their recipes found in the list
 
-* Ruby version
+* `/full_match_recipes`:  Returns the recipes which have all their ingredients into `ingredients`
 
-* System dependencies
+* Hosted on https://jf-fridge-api.herokuapp.com/
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+* Postman collection: `jf-fridge-api.postman_collection.json`
