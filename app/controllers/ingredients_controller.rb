@@ -1,6 +1,9 @@
 class IngredientsController < ApplicationController
   before_action :set_ingredient, only: [:show, :update, :destroy]
 
+  def options
+  end
+
   # GET /ingredients
   def index
     @ingredients = Ingredient.all
@@ -41,12 +44,14 @@ class IngredientsController < ApplicationController
   ### RECIPES METHODS
   def matching_recipes
     @limit = params[:limit] || 5
-    render json: Ingredient.find_best_matches(Ingredient.all.map(&:name), @limit)
+    @ingredients = params[:ingredients] || []
+    render json: Ingredient.find_best_matches(@ingredients, @limit)
   end
 
   def full_match_recipes
     @limit = params[:limit] || 5
-    render json: Ingredient.find_recipes_with_all_ingredients(Ingredient.all.map(&:name), @limit)
+    @ingredients = params[:ingredients] || []
+    render json: Ingredient.find_recipes_with_all_ingredients(@ingredients, @limit)
   end
 
   private

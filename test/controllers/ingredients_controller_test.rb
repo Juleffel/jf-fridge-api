@@ -41,50 +41,33 @@ class IngredientsControllerTest < ActionDispatch::IntegrationTest
   ## RECIPES METHODS
   ##########
   test "should return matching recipes" do
-    Ingredient.delete_all
-    Ingredient.create(name: "Tomates")
-    Ingredient.create(name: "Oignons")
-    Ingredient.create(name: "Crème")
-    Ingredient.create(name: "Lardons")
-    Ingredient.create(name: "Mozarella")
-    Ingredient.create(name: "Pâtes")
-    get matching_recipes_ingredients_url, as: :json
+    ingredients = ["Tomates", "Oignons", "Crème", "Lardons", "Mozarella", "Pâtes"]
+    post matching_recipes_url, params: { ingredients: ingredients }, as: :json
     assert_response :success
 
     body = JSON.parse(@response.body)
     assert_equal(
-      body.map {|e| e["recipe"]["name"]},
       ["Pâtes faciles aux poivrons, chorizo et parmesan", "Spaghettis aux crevettes de Manou",
-        "Chicken pie ( tourte au poulet ) à l'oignon", "Pâtes sauce fruitée aux trois fromages", "Pâtes safranées aux gambas"])
+        "Chicken pie ( tourte au poulet ) à l'oignon", "Pâtes safranées aux gambas", "Pâtes sauce fruitée aux trois fromages"],
+      body.map {|e| e["recipe"]["name"]})
   end
 
   test "should return full matching recipes" do
     Ingredient.delete_all
-    Ingredient.create(name: "Pâtes")
-    Ingredient.create(name: "Chorizo")
-    Ingredient.create(name: "Poivron")
-    Ingredient.create(name: "Vin blanc")
-    Ingredient.create(name: "Parmesan")
-    Ingredient.create(name: "Oignons")
-    Ingredient.create(name: "Herbes de Provence")
-    Ingredient.create(name: "Origan")
-    Ingredient.create(name: "Piment d’espelette")
-    Ingredient.create(name: "Crème fraîche")
-    Ingredient.create(name: "Tomates fraiches")
-    Ingredient.create(name: "Coulis de tomate")
-    get full_match_recipes_ingredients_url, as: :json
+    ingredients = ["Pâtes", "Chorizo", "Poivron", "Vin blanc", "Parmesan", "Oignons", "Herbes de Provence", "Origan", "Piment d’espelette",
+      "Crème fraîche", "Tomates fraiches", "Coulis de tomate"]
+    post full_match_recipes_url, params: { ingredients: ingredients }, as: :json
     assert_response :success
 
     body = JSON.parse(@response.body)
-    assert_equal(body.length, 0)
+    assert_equal(0, body.length)
 
-    Ingredient.create(name: "Sel")
-    Ingredient.create(name: "Poivre")
-    get full_match_recipes_ingredients_url, as: :json
+    ingredients += ["Sel", "Poivre"]
+    post full_match_recipes_url, params: { ingredients: ingredients }, as: :json
     assert_response :success
 
     body = JSON.parse(@response.body)
-    assert_equal(body.length, 1)
-    assert_equal(body[0]["name"], "Pâtes faciles aux poivrons, chorizo et parmesan")
+    assert_equal(1, body.length)
+    assert_equal("Pâtes faciles aux poivrons, chorizo et parmesan", body[0]["name"])
   end
 end

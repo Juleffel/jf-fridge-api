@@ -38,9 +38,9 @@ class IngredientTest < ActiveSupport::TestCase
   test "find_best_matches" do
     assert(Ingredient::RECIPES.count >= 1)
     assert_equal(
-      Ingredient.find_best_matches(["Tomates", "Oignons", "Crème", "Lardons", "Mozarella", "Pâtes"]).map {|e| e[:recipe]["name"]},
       ["Pâtes faciles aux poivrons, chorizo et parmesan", "Spaghettis aux crevettes de Manou",
-        "Chicken pie ( tourte au poulet ) à l'oignon", "Pâtes sauce fruitée aux trois fromages", "Pâtes safranées aux gambas"])
+        "Chicken pie ( tourte au poulet ) à l'oignon", "Pâtes safranées aux gambas", "Pâtes sauce fruitée aux trois fromages"],
+      Ingredient.find_best_matches(["Tomates", "Oignons", "Crème", "Lardons", "Mozarella", "Pâtes"]).map {|e| e[:recipe]["name"]},)
   end
 
   test "find_ingredients_in_recipe" do
@@ -72,20 +72,22 @@ class IngredientTest < ActiveSupport::TestCase
 
   test "find_recipe_ingredients" do
     # "Lapin" and "chêvre" are not in the original recipe
-    assert_equal(Ingredient.find_recipe_ingredients(
+    assert_equal(
       [
-        "pâtes",
-        "chorizo",
-        "lapin",
-        "poivron",
-        "chêvre",
+        "1kg de penne ou tout autres pâtes en forme de tubes",
+        "1 chorizo fort",
+        "3 poivrons (1rouge, 1jaune et 1 vert pour la couleur)",
       ],
-      test_recipe,
-    ), [
-      "1kg de penne ou tout autres pates en forme de tubes",
-      "1 chorizo fort",
-      "3 poivrons (1rouge, 1jaune et 1 vert pour la couleur)",
-    ])
+      Ingredient.find_recipe_ingredients(
+        [
+          "pâtes",
+          "chorizo",
+          "lapin",
+          "poivron",
+          "chêvre",
+        ],
+        test_recipe,
+      ))
     # "Tomate" is mentionned twice in original recipe and this method should return them both
     assert_equal(Ingredient.find_recipe_ingredients(
       [
@@ -108,14 +110,14 @@ class IngredientTest < ActiveSupport::TestCase
         "vin blanc",
         "parmesan",
         "oignons",
-        "herbes de Provence",
+        "herbes de provence",
         "origan",
         "piment d’espelette",
         "crème fraîche",
         "tomates fraiches",
         "coulis de tomate",
-        "Sel",
-        "Poivre",
+        "sel",
+        "poivre",
       ],
       test_recipe,
     ))
@@ -128,13 +130,13 @@ class IngredientTest < ActiveSupport::TestCase
         "vin blanc",
         "parmesan",
         "oignons",
-        "herbes de Provence",
+        "herbes de provence",
         "origan",
         "piment d’espelette",
         "crème fraîche",
         "tomates fraiches",
         "coulis de tomate",
-        "Sel",
+        "sel",
       ],
       test_recipe,
     ))
